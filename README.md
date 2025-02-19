@@ -1,5 +1,8 @@
 # CudaTracer
 
+[<img src="https://img.shields.io/badge/github--blue?logo=github" alt="Github badge">](https://github.com/JasperJeuken/CudaRayTracer)
+[<img src="https://img.shields.io/badge/Documentation--blue?logo=readthedocs" alt="readthedocs badge">](https://jasperjeuken.github.io/CudaRayTracer/)
+
 A path tracing engine that uses C++ CUDA for rendering on the GPU.
 
 _This is a personal project to learn about CUDA programming and is not optimized_
@@ -7,6 +10,8 @@ _This is a personal project to learn about CUDA programming and is not optimized
 ![](assets/examples/preview.gif)
 
 _Render preview window (sped-up)_
+
+Documentation can be accessed [here](https://jasperjeuken.github.io/CudaRayTracer/).
 
 ## Features
 - **Monte Carlo ray tracing**: high quality rendering using stochastic sampling
