@@ -113,6 +113,7 @@ The following header-only libraries are included in the repository (in [`externa
 
 - [`glText`](https://github.com/vallentin/glText): text in preview window
 - [`stb`](https://github.com/nothings/stb): image loading/saving (`image` and `image_write`)
+- [`OBJ-Loader`](https://github.com/Bly7/OBJ-Loader): OBJ file loading
 
 ## Build Instructions
 To build the application, use the following steps:
