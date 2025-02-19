@@ -1,0 +1,54 @@
+camera:
+  type: perspective
+  from: [0, 0, 5]
+  to: [0, 0, 0]
+  vfov: 40
+
+render:
+  width: 1000
+  height: 1000
+  samples: 100
+  max_bounces: 15
+
+environment:
+  texture:
+    type: solid_color
+    color: [0, 0, 0]
+
+materials:
+  - name: white
+    type: lambertian
+    texture:
+      type: solid_color
+      color: [0.93, 0.93, 0.93]
+  - name: light
+    type: diffuse_light
+    texture:
+      type: solid_color
+      color: [1, 1, 1]
+
+objects:
+  - type: quad
+    corner: [-2, -2, -2]
+    edge1: [0, 4, 0]
+    edge2: [0, 0, 4]
+    material: light
+  - type: quad
+    corner: [-2, 2, -2]
+    edge1: [4, 0, 0]
+    edge2: [0, 0, 4]
+    material: light
+  - type: quad
+    corner: [-2, -2, -2]
+    edge1: [4, 0, 0]
+    edge2: [0, 0, 4]
+    material: white
+  - type: quad
+    corner: [2, -2, -2]
+    edge1: [0, 4, 0]
+    edge2: [0, 0, 4]
+    material: white
+  - type: model
+    filename: assets/objects/blendermonkey.obj
+    scale: 1
+    material: white

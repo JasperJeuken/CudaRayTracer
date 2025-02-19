@@ -531,6 +531,27 @@ std::vector<int> parse_object(const YAML::Node& node, std::vector<_texture*>& te
         return indices;
     }
 
+    // Parse inline model object
+    if (type == "model") {
+        std::string filename = parse_required<std::string>(node, "filename", "Model object 'filename' string missing or invalid (line " + std::to_string(node.Mark().line) + ")");
+        float scale = parse_optional<float>(node, "scale", 1.0f);
+
+        const YAML::Node& mat_node = node["material"];
+        if (!mat_node) {
+            error_with_message("Model object must have 'material' field (line " + std::to_string(node.Mark().line) + ")");
+        }
+        int mat_idx = parse_material(mat_node, textures, materials, texture_map, material_map);
+
+        std::vector<tri*> model_tris = load_model(filename, mat_idx, scale);
+        std::vector<int> indices;
+        for (int i = 0; i < model_tris.size(); i++) {
+            model_tris[i]->normal_idx = normal_idx;
+            objects.push_back(model_tris[i]);
+            indices.push_back(objects.size() - 1);
+        }
+        return indices;
+    }
+
     // Parse inline translated object
     if (type == "translate") {
         vec3 offset = parse_required_vec3(node, "offset", "Translate 'offset' vector missing or invalid (line " + std::to_string(node.Mark().line) + ")");

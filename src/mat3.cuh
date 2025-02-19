@@ -61,7 +61,7 @@ public:
     __host__ __device__ mat3(vec3 col1, vec3 col2, vec3 col3) {
         m[0][0] = col1[0]; m[0][1] = col2[0]; m[0][2] = col3[0];
         m[1][0] = col1[1]; m[1][1] = col2[1]; m[1][2] = col3[1];
-        m[2][0] = col1[2]; m[2][1] = col2[2]; m[1][2] = col3[2];
+        m[2][0] = col1[2]; m[2][1] = col2[2]; m[2][2] = col3[2];
     }
 
     /**

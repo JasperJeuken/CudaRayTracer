@@ -123,7 +123,7 @@ public:
                 new_max[c] = fmax(new_max[c], rotated_corners[i][c]);
             }
         }
-        bbox = aabb(new_min, new_max);
+        bbox = aabb(new_min + translation, new_max + translation);
     }
 };
 
@@ -426,16 +426,18 @@ __device__ bool object_hit(const ray& r, interval ray_t, hit_record& rec, curand
 __device__ bool hittable::hit(const ray& r, interval ray_t, hit_record& rec, curandState* rand_state, _texture** textures) const {
 
     // Apply transformations
-    ray transformed_r = ray(r.origin() - translation, r.direction(), r.time());
-    transformed_r = ray(rotation_inv * (transformed_r.origin() - anchor_point) + anchor_point, rotation_inv * transformed_r.direction(), transformed_r.time());
+    vec3 transformed_origin = rotation_inv * (r.origin() - anchor_point - translation) + anchor_point;
+    vec3 transformed_direction = rotation_inv * r.direction();
+    ray transformed_r = ray(transformed_origin, transformed_direction, r.time());
 
     // Check if object is hit
     bool hit = object_hit(transformed_r, ray_t, rec, rand_state, this);
     if (!hit) return hit;
 
     // Revert transformations
-    vec3 rotated_p = rotation * (rec.p - anchor_point) + anchor_point;
-    rec.p = rotated_p + translation;
+    // rec.p = rotation * (rec.p - anchor_point) + anchor_point + translation;
+    rec.p = rotation * (rec.p - anchor_point) + anchor_point;
+    rec.p += translation;
     rec.normal = rotation * rec.normal;
 
     // Apply maps

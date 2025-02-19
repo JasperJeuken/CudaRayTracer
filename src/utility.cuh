@@ -150,6 +150,18 @@ __host__ std::string date_time_string() {
     return oss.str();
 }
 
+/**
+ * @brief Check if a string ends with a given substring
+ * 
+ * @param text Full text
+ * @param ending Ending substring
+ * @return Whether the full text ends with the specified substring
+ */
+__host__ bool ends_with(const std::string& text, const std::string& ending) {
+    if (ending.size() > text.size()) return false;
+    return std::equal(ending.rbegin(), ending.rend(), text.rbegin());
+}
+
 // Shorthand for check_cuda
 #define checkCudaErrors(val) check_cuda( (val), #val, __FILE__, __LINE__ )
 

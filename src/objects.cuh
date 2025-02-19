@@ -6,7 +6,13 @@
 #ifndef OBJECTS_H
 #define OBJECTS_H
 
+#include <string>
+#include "OBJ_Loader.h"
+
 #include "hittable.cuh"
+#include "utility.cuh"
+
+
 
 
 /**
@@ -137,6 +143,53 @@ __host__ std::vector<tri*> box(point3 corner1, point3 corner2, int mat_idx, bool
     tris.insert(tris.end(), tris6.begin(), tris6.end());
 
     return tris;
+}
+
+/**
+ * @brief Load an model from an OBJ file
+ * 
+ * @param filename path to OBJ file to load
+ * @param mat_idx material index
+ * @param scale scale factor
+ * @return Vector of triangles forming the (scaled) model
+ */
+__host__ std::vector<tri*> load_model(const std::string& filename, int mat_idx, float scale = 1.0f) {
+    if (!ends_with(filename, ".obj")) error_with_message("Unsupported model type");
+
+    objl::Loader loader;
+
+    bool loaded = loader.LoadFile(filename.c_str());
+    if (!loaded) error_with_message("Could not find object file '" + filename + "'");
+
+    std::vector<tri*> triangles;
+    for (const objl::Mesh& mesh : loader.LoadedMeshes) {
+        for (size_t i = 0; i < mesh.Indices.size(); i += 3) {
+
+            // Extract vertex indices
+            int i0 = mesh.Indices[i + 0];
+            int i1 = mesh.Indices[i + 1];
+            int i2 = mesh.Indices[i + 2];
+
+            // Extract vertex positions (scaled)
+            vec3 v0 = vec3(mesh.Vertices[i0].Position.X, mesh.Vertices[i0].Position.Y, mesh.Vertices[i0].Position.Z) * scale;
+            vec3 v1 = vec3(mesh.Vertices[i1].Position.X, mesh.Vertices[i1].Position.Y, mesh.Vertices[i1].Position.Z) * scale;
+            vec3 v2 = vec3(mesh.Vertices[i2].Position.X, mesh.Vertices[i2].Position.Y, mesh.Vertices[i2].Position.Z) * scale;
+
+            // Extract normals
+            vec3 n0 = vec3(mesh.Vertices[i0].Normal.X, mesh.Vertices[i0].Normal.Y, mesh.Vertices[i0].Normal.Z);
+            vec3 n1 = vec3(mesh.Vertices[i1].Normal.X, mesh.Vertices[i1].Normal.Y, mesh.Vertices[i1].Normal.Z);
+            vec3 n2 = vec3(mesh.Vertices[i2].Normal.X, mesh.Vertices[i2].Normal.Y, mesh.Vertices[i2].Normal.Z);
+
+            // Extract UV coordinates
+            vec2 uv0 = vec2(mesh.Vertices[i0].TextureCoordinate.X, mesh.Vertices[i0].TextureCoordinate.Y);
+            vec2 uv1 = vec2(mesh.Vertices[i1].TextureCoordinate.X, mesh.Vertices[i1].TextureCoordinate.Y);
+            vec2 uv2 = vec2(mesh.Vertices[i2].TextureCoordinate.X, mesh.Vertices[i2].TextureCoordinate.Y);
+
+            // Create and store tri
+            triangles.push_back(new tri(v0, v1, v2, n0, n1, n2, uv0, uv1, uv2, mat_idx));
+        }
+    }
+    return triangles;
 }
 
 /**

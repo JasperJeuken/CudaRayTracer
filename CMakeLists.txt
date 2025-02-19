@@ -22,6 +22,10 @@ target_include_directories(stb INTERFACE external/stb)
 add_library(gltext INTERFACE)
 target_include_directories(gltext INTERFACE external/gltext)
 
+# Add OBJ-Loader library
+add_library(OBJ_Loader INTERFACE)
+target_include_directories(OBJ_Loader INTERFACE external/OBJ_Loader)
+
 # Add OpenImageDenoise
 set(OIDN_ROOT "C:/Program Files/OpenImageDenoise")
 include_directories("${OIDN_ROOT}/include")
@@ -34,7 +38,7 @@ file(GLOB_RECURSE SOURCES ${SRC_DIR}/*.cu)
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Set NVCC flags
-set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -m64 --std=c++17 --use_fast_math -Xptxas -O3")
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -m64 --std=c++17 --use_fast_math -Xptxas -O3 -diag-suppress 174")
 
 # Specify the runtime library to avoid conflicts
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
@@ -50,6 +54,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     stb
     gltext
     opengl32
+    OBJ_Loader
     "${OIDN_ROOT}/lib/OpenImageDenoise.lib"
     "${OIDN_ROOT}/lib/OpenImageDenoise_core.lib"
 )

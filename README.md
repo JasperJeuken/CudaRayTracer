@@ -21,6 +21,7 @@ Documentation can be accessed [here](https://jasperjeuken.github.io/CudaRayTrace
   - **Render passes**: separate passes for post-processing (color, albedo, normal, depth, opacity, emission)
 - **Image denoising**: (optional) denoising using Intel OpenImageDenoise.
 - **Scene definition**: easy-to-use using YAML files
+- **OBJ file support**: load 3D models through OBJ files
 - **Environment textures**: supports (HDR) textures for image-based lighting.
 - **Bounding Volume Hierarchy**: faster ray-scene intersection using BVH4.
 
@@ -45,12 +46,21 @@ The scene definitions for all renders are available in [examples](examples/).
 |----------------------------------------------|---------------------------------------------|-----------------------------------------------|
 | ![](assets/examples/orthographic/normal.png) | ![](assets/examples/orthographic/depth.png) | ![](assets/examples/orthographic/opacity.png) |
 
-### Cornell Box
+### Cornell box
 
 | 1000 x 1000 px | 50 samples | 15 bounces | 4.843 seconds | denoised |
 |----------------|------------|------------|---------------|----------|
 
 ![](assets/examples/cornell_box.png)
+
+### OBJ file
+
+Model: [Suzanne the monkey](https://www.dummies.com/article/technology/software/animation-software/blender/meet-suzanne-the-blender-monkey-142918/) (968 triangles)
+
+| 1000 x 1000 px | 100 samples | 15 bounces | 2.962 seconds | denoised |
+|----------------|-------------|------------|---------------|----------|
+
+![](assets/examples/obj.png)
 
 ### Normal map
 
@@ -344,13 +354,13 @@ Diffuse light example:
 ```
 
 ### Objects
-Objects define the shapes present in the scene. There are five basic shapes available: `sphere`, `uv_sphere`, `tri`, `quad`, and `box`. The sphere is a perfect mathematical sphere defined by a center and radius. A UV sphere is an approximation of a sphere using triangles. Triangles can also be defined by themselves, or two triangles forming a quadrilateral. Finally, multiple quadrilaterals can be assembled into a box.
+Objects define the shapes present in the scene. There are five basic shapes available: `sphere`, `uv_sphere`, `tri`, `quad`, `box`, and `model`. The sphere is a perfect mathematical sphere defined by a center and radius. A UV sphere is an approximation of a sphere using triangles. Triangles can also be defined by themselves, or two triangles forming a quadrilateral. Multiple quadrilaterals can be assembled into a box. Finally, a model from an OBJ file can be loaded.
 
 There are additional options to translate or rotate objects.
 
 | **Option**     | **Type** | **Default** | **Description**                                                                        |
 |----------------|----------|-------------|----------------------------------------------------------------------------------------|
-| `type`         | string   | N/A         | Type of object (`sphere`, `uv_sphere`, `tri`, `quad`, `box`, `translate`, or `rotate`) |
+| `type`         | string   | N/A         | Type of object (`sphere`, `uv_sphere`, `tri`, `quad`, `box`, `model`, `translate`, or `rotate`) |
 | `material`     | material | N/A         | Material of the object (not for `rotate` or `translate`)                               |
 | `normal`       | texture  | -           | Optional normal texture (DirectX format, not for `rotate` or `translate`)              |
 | `center`       | vec3     | N/A         | [`sphere`/`uv_sphere` only] sphere center                                              |
@@ -374,6 +384,8 @@ There are additional options to translate or rotate objects.
 | `offset`       | vec3     | N/A         | [`translate` only] translation vector (xyz)                                            |
 | `angles`       | vec3     | N/A         | [`rotate` only] rotation angles (xyz, degrees)                                         |
 | `anchor`       | vec3     | center      | [`rotate` only] point about which to rotate (default is object center point)           |
+| `filename`     | string   | N/A         | [`model` only] path to OBJ file to load                                       |
+| `scale`        | float    | 1.0         | [`model` only] factor to scale model with                                       |
 
 Sphere example:
 ```yaml
@@ -428,6 +440,15 @@ Box example:
   - type: box
     corner1: [0, 0, 0]
     corner2: [1, 1, 1]
+    material: red
+```
+
+Model example:
+```yaml
+...
+  - type: model
+    filename: assets/objects/blendermonkey.obj
+    scale: 100
     material: red
 ```
 
