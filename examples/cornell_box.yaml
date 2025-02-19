@@ -1,0 +1,84 @@
+camera:
+  type: perspective
+  from: [278, 278, -800]
+  to: [278, 278, 0]
+  vfov: 40
+
+render:
+  width: 1000
+  height: 1000
+  samples: 200
+  max_bounces: 15
+
+environment:
+  texture:
+    type: solid_color
+    color: [0, 0, 0]
+
+materials:
+  - name: red
+    type: lambertian
+    texture:
+      type: solid_color
+      color: [0.65, 0.05, 0.05]
+  - name: green
+    type: lambertian
+    texture:
+      type: solid_color
+      color: [0.12, 0.45, 0.15]
+  - name: white
+    type: lambertian
+    texture:
+      type: solid_color
+      color: [0.73, 0.73, 0.73]
+  - name: light
+    type: diffuse_light
+    texture:
+      type: solid_color
+      color: [15, 15, 15]
+
+objects:
+  - type: quad
+    corner: [555, 0, 0]
+    edge1: [0, 555, 0]
+    edge2: [0, 0, 555]
+    material: green
+  - type: quad
+    corner: [0, 0, 0]
+    edge1: [0, 555, 0]
+    edge2: [0, 0, 555]
+    material: red
+  - type: quad
+    corner: [343, 554.9, 332]
+    edge1: [-130, 0, 0]
+    edge2: [0, 0, -105]
+    material: light
+  - type: quad
+    corner: [0, 0, 0]
+    edge1: [555, 0, 0]
+    edge2: [0, 0, 555]
+    material: white
+  - type: quad
+    corner: [555, 555, 555]
+    edge1: [-555, 0, 0]
+    edge2: [0, 0, -555]
+    material: white
+  - type: quad
+    corner: [0, 0, 555]
+    edge1: [555, 0, 0]
+    edge2: [0, 555, 0]
+    material: white
+  - type: rotate
+    angles: [0, -18, 0]
+    object:
+      type: box
+      corner1: [130, 0, 65]
+      corner2: [295, 165, 230]
+      material: white
+  - type: rotate
+    angles: [0, 15, 0]
+    object:
+      type: box
+      corner1: [265, 0, 295]
+      corner2: [430, 330, 460]
+      material: white

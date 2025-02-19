@@ -1,0 +1,63 @@
+camera:
+  type: orthographic
+  from: [5, 5, 5]
+  to: [0, 0, 0]
+  up: [0, 1, 0]
+  width: 4
+
+render:
+  width: 1000
+  height: 1000
+  samples: 50
+  max_bounces: 10
+
+environment:
+  texture:
+    type: solid_color
+    color: [0, 0, 0]
+
+textures:
+  - name: grey
+    type: solid_color
+    color: [0.8, 0.8, 0.8]
+  - name: red
+    type: solid_color
+    color: [0.33, 0, 0]
+  - name: green
+    type: solid_color
+    color: [0, 0.33, 0]
+  - name: blue
+    type: solid_color
+    color: [0, 0, 0.33]
+
+materials:
+  - name: matte_grey
+    type: lambertian
+    texture: grey
+  - name: red_light
+    type: diffuse_light
+    texture: red
+  - name: green_light
+    type: diffuse_light
+    texture: green
+  - name: blue_light
+    type: diffuse_light
+    texture: blue
+
+objects:
+  - type: box
+    corner1: [-1, -1, -1]
+    corner2: [1, 1, 1]
+    material: matte_grey
+  - type: sphere
+    center: [1.5, 0, 0]
+    radius: 0.5
+    material: blue_light
+  - type: sphere
+    center: [0, 1.5, 0]
+    radius: 0.5
+    material: red_light
+  - type: sphere
+    center: [0, 0, 1.5]
+    radius: 0.5
+    material: green_light

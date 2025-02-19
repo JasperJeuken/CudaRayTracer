@@ -1,0 +1,48 @@
+camera:
+  type: perspective
+  from: [-4, 0, 0]
+  to: [0, 0, 0]
+  up: [0, 1, 0]
+  vfov: 30
+
+render:
+  width: 1000
+  height: 1000
+  samples: 300
+  max_bounces: 10
+
+environment:
+  texture:
+    type: solid_color
+    color: [0, 0, 0]
+
+textures:
+  - name: diffuse_texture
+    type: image
+    filename: "assets/textures/red_brick/diff_2k.jpg"
+  - name: normal_texture
+    type: image
+    filename: "assets/textures/red_brick/nor_dx_2k.jpg"
+
+materials:
+  - name: diffuse
+    type: lambertian
+    texture: diffuse_texture
+  - name: light
+    type: diffuse_light
+    texture:
+      type: solid_color
+      color: [1, 1, 1]
+
+objects:
+  - type: quad
+    corner: [0, -1, -1]
+    edge1: [0, 0, 2]
+    edge2: [0, 2, 0]
+    material: diffuse
+    normal: normal_texture
+  - type: quad
+    corner: [0, 2, -1]
+    edge1: [-5, 0, 0]
+    edge2: [0, 0, 2]
+    material: light

@@ -1,0 +1,124 @@
+camera:
+  type: perspective
+  from: [-10, 0, 0]
+  to: [0, 0, 0]
+  vfov: 16
+
+render:
+  width: 2000
+  height: 400
+  samples: 100
+  max_bounces: 30
+
+environment:
+  texture:
+    type: solid_color
+    color: [0, 0, 0]
+
+textures:
+  - name: solid_black
+    type: solid_color
+    color: [0.1, 0.1, 0.1]
+  - name: solid_white
+    type: solid_color
+    color: [0.9, 0.9, 0.9]
+  - name: solid_red
+    type: solid_color
+    color: [0.9, 0.1, 0.1]
+  - name: checker_texture
+    type: checker
+    odd: solid_black
+    even: solid_white
+    scale: 0.5
+  - name: beach_diffuse
+    type: image
+    filename: "assets/textures/beach/diff_2k.jpg"
+  - name: beach_normal
+    type: image
+    filename: "assets/textures/beach/nor_dx_2k.jpg"
+
+materials:
+  - name: black
+    type: lambertian
+    texture: solid_black
+  - name: white
+    type: lambertian
+    texture: solid_white
+  - name: red
+    type: lambertian
+    texture: solid_red
+  - name: checker
+    type: lambertian
+    texture: checker_texture
+  - name: beach
+    type: lambertian
+    texture: beach_diffuse
+  - name: glass
+    type: dielectric
+    ior: 1.5
+  - name: metal
+    type: metal
+    color: [1, 1, 1]
+  - name: brushed_metal
+    type: metal
+    color: [1, 1, 1]
+    fuzz: 0.5
+  - name: light
+    type: diffuse_light
+    texture:
+      type: solid_color
+      color: [0.9, 0.9, 0.9]
+
+objects:
+  # Spheres
+  - type: sphere
+    center: [0, 0, -5]
+    radius: 1
+    material: checker
+  - type: sphere
+    center: [0, 0, -3]
+    radius: 1
+    material: glass
+  - type: sphere
+    center: [0, 0, -1]
+    radius: 1
+    material: red
+  - type: sphere
+    center: [0, 0, 1]
+    radius: 1
+    material: beach
+    normal: beach_normal
+  - type: sphere
+    center: [0, 0, 3]
+    radius: 1
+    material: metal
+  - type: sphere
+    center: [0, 0, 5]
+    radius: 1
+    material: brushed_metal
+  # Box
+  - type: quad
+    corner: [-2, -1, -6]
+    edge1: [4, 0, 0]
+    edge2: [0, 0, 12]
+    material: white
+  - type: quad
+    corner: [-2, 1, -6]
+    edge1: [4, 0, 0]
+    edge2: [0, 0, 12]
+    material: light
+  - type: quad
+    corner: [2, -1, -6]
+    edge1: [0, 2, 0]
+    edge2: [0, 0, 12]
+    material: red
+  - type: quad
+    corner: [-2, -1, -6]
+    edge1: [0, 2, 0]
+    edge2: [4, 0, 0]
+    material: red
+  - type: quad
+    corner: [-2, -1, 6]
+    edge1: [0, 2, 0]
+    edge2: [4, 0, 0]
+    material: red

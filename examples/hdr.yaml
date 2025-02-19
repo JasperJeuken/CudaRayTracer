@@ -1,0 +1,25 @@
+camera:
+  type: perspective
+  from: [-5, 1, 1]
+  to: [0, 0, 0]
+  vfov: 30
+
+render:
+  width: 1000
+  height: 1000
+  samples: 100
+  max_bounces: 5
+
+environment:
+  texture:
+    type: image
+    filename: "assets/hdr/the_sky_is_on_fire_2k.hdr"
+    flip_y: true
+
+objects:
+  - type: sphere
+    center: [0, 0, 0]
+    radius: 1
+    material:
+      type: metal
+      color: [1, 1, 1]

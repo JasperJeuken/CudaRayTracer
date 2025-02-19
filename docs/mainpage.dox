@@ -1,0 +1,66 @@
+/**
+* @mainpage CudaTracer Documentation
+* 
+* Welcome to the documentation of CudaTracer. This is a simple ray tracer that uses C++ CUDA to accelerate the rendering process.
+* This project is not meant to be a full-featured ray tracer, but a personal project to learn about CUDA and ray tracing.
+* 
+* @section features_sec Features
+* - **Monte Carlo Ray Tracing**: High quality rendering using stochastic sampling.
+* - **GPU Acceleration**: Uses CUDA for parallel processing on NVIDIA GPUs.
+* - **Live Preview**: Optional live preview of the rendering process using OpenGL and SDL2.
+* - **Multiple Render Passes**: Supports multiple render passes for post-processing effects (color, albedo, normal, depth, opacity, emission).
+* - **Image Denoising**: Optional image denoising using Intel Open Image Denoise.
+* - **Scene Definition**: Define scenes using a simple YAML format.
+* - **Environment Textures**: Supports environment textures for image-based lighting.
+* - **Bounding Volume Hierarchy**: Accelerates ray tracing using a BVH.
+*
+* @section dependencies_sec Dependencies
+* The following dependencies are required to build and run the project:
+* - <a href="https://developer.nvidia.com/cuda-toolkit">**CUDA Toolkit**</a>: Required for compiling and running the CUDA code.
+* - <a href="https://www.libsdl.org/">**SDL2**</a>: Required for the live preview.
+* - <a href="https://www.opengl.org/">**OpenGL**</a>: Required for the live preview.
+* - <a href="https://glew.sourceforge.net/">**GLEW**</a>: Required for the live preview.
+* - <a href="https://github.com/jbeder/yaml-cpp">**yaml-cpp**</a>: Required for parsing YAML scene files.
+* - <a href="https://github.com/RenderKit/oidn">**OpenImageDenoise**</a>: Required for image denoising.
+*
+* The following dependencies are included in the project (under `external/`):
+* - <a href="https://github.com/nothings/stb">**stb_image**</a>: Required for reading and writing images.
+* - <a href="https://github.com/vallentin/glText">**glText**</a>: Required for rendering text in OpenGL.
+*
+* @section usage_sec Usage
+* To build and run the project, follow these steps:
+* 1. **Build the project**:
+*    ```bash
+*    git clone https://github.com/JasperJeuken/CudaTracer.git
+*    cd CudaTracer
+*    mkdir build
+*    cd build
+*    cmake ..
+*    cmake --build . --config Release
+*    ```
+* 2. **Define a scene**: Create a YAML file with the scene definition. See the `examples/` directory for examples.
+* 3. **Run the ray tracer**:
+*    ```bash
+*    ./dist/CudaTracer.exe scene.yaml
+*    ```
+*
+* @section code_sec Code Structure
+* The project is structured as follows:
+* - **main.cu**: Entry point of the program.
+* - **command_parse.cuh**: Command line argument parsing.
+* - **scene.cuh**: Scene management and parsing.
+* - **render.cuh**: Rendering kernel and related functions.
+* - **preview.cuh**: Live preview window implementation.
+* - **denoise.cuh**: Optional denoising functions.
+* - **objects.cuh**: Object creation and management.
+* - **ray.cuh**: Ray class definition.
+* - **camera.cuh**: Camera class and ray generation.
+* - **material.cuh**: Material properties and shading.
+* - **texture.cuh**: Texture handling and mapping.
+* - **vec2.cuh**: 2D vector operations.
+* - **vec3.cuh**: 3D vector operations.
+* - **interval.cuh**: Interval class for ray intersection tests.
+* - **buffer.cuh**: Framebuffer management.
+* - **hittable.cuh**: Hittable objects and intersection logic.
+* - **bvh.cuh**: Bounding Volume Hierarchy for acceleration.
+*/
